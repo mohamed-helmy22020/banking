@@ -12,6 +12,12 @@ export const signIn = async ({ email, password }: signInProps) => {
             email,
             password
         );
+        cookies().set("appwrite-session", response.secret, {
+            path: "/",
+            httpOnly: true,
+            sameSite: "strict",
+            secure: true,
+        });
         return parseStringify(response);
     } catch (error) {
         console.log(error);
@@ -33,6 +39,7 @@ export const signUp = async (userData: SignUpParams) => {
             email,
             password
         );
+        console.log(session);
 
         cookies().set("appwrite-session", session.secret, {
             path: "/",
