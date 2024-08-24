@@ -1,16 +1,17 @@
 "use client";
+import {
+    createLinkToken,
+    exchangePublicToken,
+} from "@/lib/actions/user.actions";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import { Button } from "./ui/button";
 import {
     PlaidLinkOnSuccess,
     PlaidLinkOptions,
     usePlaidLink,
 } from "react-plaid-link";
-import { useRouter } from "next/navigation";
-import {
-    createLinkToken,
-    exchangePublicToken,
-} from "@/lib/actions/user.actions";
+import { Button } from "./ui/button";
 const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
     const router = useRouter();
     const [token, setToken] = useState("");
@@ -28,6 +29,7 @@ const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
                 publicToken,
                 user,
             });
+
             router.push("/");
         },
         [user]
@@ -51,9 +53,34 @@ const PlaidLink = ({ user, variant }: PlaidLinkProps) => {
                     Connect bank
                 </Button>
             ) : variant === "ghost" ? (
-                <Button>Connect bank</Button>
+                <Button
+                    className="plaidlink-ghost"
+                    onClick={() => open()}
+                    disabled={!ready}
+                    variant="ghost"
+                >
+                    <Image
+                        src="/icons/connect-bank.svg"
+                        alt="Connect Bank"
+                        width={24}
+                        height={24}
+                    />
+                    <p className="text-[16] font-semibold text-black-2 hidden xl:block">
+                        Connect bank
+                    </p>
+                </Button>
             ) : (
-                <Button>Connect bank</Button>
+                <Button className="plaidlink-default" onClick={() => open()}>
+                    <Image
+                        src="/icons/connect-bank.svg"
+                        alt="Connect Bank"
+                        width={24}
+                        height={24}
+                    />
+                    <p className="text-[16] font-semibold text-black-2">
+                        Connect bank
+                    </p>
+                </Button>
             )}
         </>
     );

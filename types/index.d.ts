@@ -38,6 +38,8 @@ declare type User = {
     postalCode: string;
     dateOfBirth: string;
     ssn: string;
+    firstName: string;
+    lastName: string;
 };
 
 declare type NewUserParams = {
